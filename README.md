@@ -14,6 +14,24 @@ cargo build --release
 
 This may take a minute, as it has to fetch and compile all of the dependencies. Once it's finished, there will be a new `./target/release/` directory containing the binary you are after: `rust_overlaps` (or `rust_overlaps.exe` on Windows).
 
+### Conda
+
+The rust-overlaps package is now also available at [bioconda](https://bioconda.github.io/) and can thus be
+installed very easily using the conda package manager.
+
+First setup Bioconda by installing [Miniconda](https://conda.io/miniconda.html).
+Make sure that the miniconda bin directory is added to your PATH and setup the bioconda channel as well as the other channels bioconda depends on. It is important to add them in this order:
+```
+conda config --add channels r
+conda config --add channels defaults
+conda config --add channels conda-forge
+conda config --add channels bioconda
+```
+Once Bioconda is properly setup, the rust-overlaps can be installed with **one simple command**:
+```
+conda install rust-overlaps
+```
+
 ## Using the Solver
 
 To get acquainted with the use of the solver, simply run the compiled `rust_overlaps` binary in your terminal with just the argument `--help` (or `-h` for short). This will print some useful information to your console, showing you just about everything you need to know about the arguments you will need and the flags you may want.
@@ -58,9 +76,9 @@ However, it was also specifically designed so that adding new schemes would be a
     * `filter_func` This function defines the behaviour of your 'filtering scheme'. It will be called repeatedly during text index query searches to check whether nodes in the search tree are permitted to introduce symbol errors. As such, this function is called and expected to return an integer, represeting the _cap_ for how many errors a search node with the given properties (defined by the parameters) is permitted to have.
     * `get_block_lengths` This function defines the behaviour of the 'partition scheme'. For a pattern of given length, it expects a sequence of _lengths_. These will be interpreted as the lenths of partition blocks (left to right) to split the pattern string into. As such, the lengths returned here should all sum to arg `patt_len`.
     * `candidate_condition` This function allows you to optionally inhibit candidate generation for a search node conditionally. i.e. if your function is defined simply as `true` then every node of the search tree will generate candidates for all match locations.
-    * `get_fewest_suff_blocks` This function defines which queries NOT to initiate. The pattern will only create query searches for pattern-block-sequence suffixes of this length or more. 
+    * `get_fewest_suff_blocks` This function defines which queries NOT to initiate. The pattern will only create query searches for pattern-block-sequence suffixes of this length or more.
     * `get_guaranteed_extra_blocks` This function is only requried for `testing.rs` and the `cargo test` that runs the code within. It is intended to represent how many 0-error blocks your partition scheme gaurantees for valid pattern prefixes. If you have no intention of using the given tests, feel free to define this function as returning a dummy value.
 3. Implement some other functions required by IsMode. Namely `std::fmt::Display` and `std::fmt::Debug`. I suggest you just copy and paste from the Kucherov code and make the necessary changes
 4. In `src/modes.rs`, go to function `get_mode`, to the inside of the `switch` with the `YOUR MODES GO HERE ^^^^` comment. Just above this comment you will find more detailed instructions in a larger comment block. The purpose of this step is to get the solver to use your Mode struct when the program is started with `-m` and an appropriate parameter. Note that your struct can optionally accept user's input delimited by underscores. For example: `-m=kucherov_2` will use the kucherov mode and pass it one parameter, "2" which the struct's constructor will interpret accordingly.
-5. Build your edited rust source code as described in the section above, called "Rust and Cargo". 
+5. Build your edited rust source code as described in the section above, called "Rust and Cargo".
 6. Whenever you use the compiled solver, be sure to pass flag `-m=???` where "???" is whetever you defined it as in step 4 (conceptually, your solver's name). Don't forget the optional arguments if you need them!
