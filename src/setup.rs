@@ -7,7 +7,7 @@ use clap::clap_app;
 /*
 Using Clap, builds a config struct that contains all the user's input
 */
-pub fn parse_run_args() -> (Box<IsMode>, Config) {
+pub fn parse_run_args() -> (Box<dyn IsMode>, Config) {
     let matches = clap_app!(ASPOPsolver =>
         (version: "1.0")
         (author: "Christopher Esterhuyse <christopher.esterhuyse@gmail.com>")

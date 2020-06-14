@@ -5,16 +5,15 @@ the right solutions, using some predetermined inputs in th text_input directory.
 #[cfg(test)]
 mod tests {
     use std;
-    use setup;
-    use search;
+    use crate::search;
     use std::fs::File;
-    use useful::Orientation::{Normal, Reversed};
-    use modes;
-    use solve;
+    use crate::useful::Orientation::{Normal, Reversed};
+    use crate::modes;
+    use crate::solve;
     use std::collections::HashSet;
-    use prepare;
-    use structs::run_config::{Config, Maps};
-    use useful::Orientation;
+    use crate::prepare;
+    use crate::structs::run_config::Config;
+    use crate::useful::Orientation;
     use std::io::{BufReader, BufRead};
 
     #[derive (Eq, PartialEq, Hash, Debug)]
@@ -329,7 +328,7 @@ mod tests {
 
     #[test]
     fn modified_levenshtein() {
-        use verification::modified_levenshtein;
+        use crate::verification::modified_levenshtein;
 
         assert_eq!(modified_levenshtein(b"", b""), 0);
         assert_eq!(modified_levenshtein(b"A", b"A"), 0);
