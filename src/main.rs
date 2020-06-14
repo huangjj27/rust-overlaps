@@ -108,7 +108,7 @@ fn solve(config : &Config, maps : &Maps, mode : Mode){
             if config.greedy_output {
                 //workers ==> out
                 for sol in solutions {write_solution(&mut wrt_buf, &sol, maps, config);}
-                wrt_buf.flush().is_ok();
+                wrt_buf.flush().unwrap();
             }else {
                 //workers ==> solutions --> sorted_solutions --> out
                 for sol in solutions {&mut complete_solution_list.push(sol);}
@@ -126,7 +126,7 @@ fn solve(config : &Config, maps : &Maps, mode : Mode){
 
     if config.track_progress {
         ATOMIC_TASKS_DONE.store(num_tasks, Ordering::Relaxed);
-        progress_tracker.join().is_ok();
+        progress_tracker.join().unwrap();
     }
 
     if !config.greedy_output {
@@ -193,14 +193,14 @@ fn track_progress(enabled : bool, num_tasks : usize) {
             let eta_str = time_display(eta as u64);
             print!("\r[{}{}] {}/{} tasks done. ETA {}                     ",
                    &complete, &incomplete, tasks_done, num_tasks, eta_str);
-            stdout().flush().is_ok();
+            stdout().flush().unwrap();
             redraw = false;
             tick_modulo = 0;
         }
         if tasks_done >= num_tasks{
             println!("\r[{}{}] {}/{} tasks done.                            ",
                      &complete, &incomplete, tasks_done, num_tasks);
-            stdout().flush().is_ok();
+            stdout().flush().unwrap();
             break;
         }
         thread::sleep(sleep_time);
@@ -254,7 +254,7 @@ fn write_solution(buf : &mut BufWriter<File>, s : &Solution, maps : &Maps, confi
                             s.overlap_b,
                             s.errors,
     );
-    buf.write(formatted.as_bytes()).is_ok();
+    buf.write(formatted.as_bytes()).unwrap();
     if config.print{
         let a = &String::from_utf8_lossy(maps.get_string(s.id_a));
         let b = &String::from_utf8_lossy(maps.get_string(s.id_b));
