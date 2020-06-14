@@ -8,8 +8,8 @@ use std::fs::File;
 use std::io::{Write, BufWriter};
 use std::collections::HashSet;
 use std::time::Instant;
-use std::fmt;
-use std::sync::atomic::{AtomicUsize, Ordering, ATOMIC_USIZE_INIT};
+
+use std::sync::atomic::{AtomicUsize, Ordering};
 use std::{thread, time};
 use std::io::stdout;
 
@@ -30,7 +30,7 @@ use crate::search::GeneratesCandidates;
 use crate::modes::Mode;
 
 pub static READ_ERR : u8 = b'N';
-static ATOMIC_TASKS_DONE: AtomicUsize = ATOMIC_USIZE_INIT;
+static ATOMIC_TASKS_DONE: AtomicUsize = AtomicUsize::new(0);
 
 /*
 Gets the config and writes all the necessary data into the map struct.
