@@ -1,17 +1,9 @@
-extern crate bidir_map;
-
-extern crate bio;
 use bio::data_structures::bwt::{DerefBWT, DerefOcc, DerefLess};
 use bio::data_structures::bwt::{bwt, less, Occ};
 use bio::data_structures::fmindex::FMIndex;
 use bio::data_structures::suffix_array::suffix_array;
 use bio::data_structures::suffix_array::RawSuffixArray;
 use bio::alphabets::Alphabet;
-#[macro_use]
-extern crate clap;
-extern crate num_cpus;
-extern crate cue;
-
 use std::fs::File;
 use std::io::{Write, BufWriter};
 use std::collections::HashSet;
@@ -32,10 +24,10 @@ mod modes;
 mod testing;
 mod useful;
 
-use structs::solutions::Solution;
-use structs::run_config::{Config, Maps};
-use search::GeneratesCandidates;
-use modes::Mode;
+use crate::structs::solutions::Solution;
+use crate::structs::run_config::{Config, Maps};
+use crate::search::GeneratesCandidates;
+use crate::modes::Mode;
 
 pub static READ_ERR : u8 = b'N';
 static ATOMIC_TASKS_DONE: AtomicUsize = ATOMIC_USIZE_INIT;

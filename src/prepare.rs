@@ -1,12 +1,11 @@
+use crate::structs::run_config::{Config, Maps};
+
 use bio::io::fasta;
 use bidir_map::BidirMap;
 
 use std::io;
 use std::fs::File;
 
-/////////////////////////////
-
-use structs::run_config::{Config, Maps};
 
 /*
 builds the maps data structure from a fasta file + config

@@ -1,9 +1,9 @@
 use num_cpus;
-use structs::run_config::Config;
-use modes::{IsMode, Mode};
-use modes;
+use crate::structs::run_config::Config;
+use crate::modes::{IsMode, Mode};
+use crate::modes;
 use std::cmp::{min, max};
-
+use clap::clap_app;
 /*
 Using Clap, builds a config struct that contains all the user's input
 */

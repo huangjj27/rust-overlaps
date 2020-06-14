@@ -1,5 +1,5 @@
 use std::cmp::{min};
-use modes::IsMode;
+use crate::modes::IsMode;
 use std::fmt;
 
 #[derive(Debug)]
