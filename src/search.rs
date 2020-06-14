@@ -1,19 +1,18 @@
+use crate::structs::run_config::{Config, Maps};
+use crate::structs::solutions::{Candidate};
+use crate::useful::companion_id;
+use crate::modes::Mode;
+
 use bio::data_structures::fmindex::Interval;
 use bio::data_structures::suffix_array::RawSuffixArray;
 use bio::data_structures::fmindex::FMIndexable;
 
-extern crate stacker; // for avoiding stackoverflow
+// extern crate stacker; // for avoiding stackoverflow
 
-use std;
+// use std;
 use std::collections::HashSet;
 use std::cmp::{min,max};
 
-////////////////////////////////////////////////////////////
-
-use structs::run_config::{Config, Maps};
-use structs::solutions::{Candidate};
-use useful::companion_id;
-use modes::Mode;
 
 pub static READ_ERR : u8 = b'N';
 
