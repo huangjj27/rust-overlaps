@@ -1,4 +1,4 @@
-use useful;
+use crate::useful;
 
 /*
 Structs and methods for solutions and candidate solutions to be used throughout the program

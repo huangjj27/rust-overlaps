@@ -5,10 +5,10 @@ use std;
 use std::cmp::max;
 use std::collections::HashSet;
 
-use structs::solutions::{Candidate, Solution};
-use structs::run_config::{Config, Maps};
-use search;
-use useful::{relative_orientation, companion_id, for_reversed_string};
+use crate::structs::solutions::{Candidate, Solution};
+use crate::structs::run_config::{Config, Maps};
+use crate::search;
+use crate::useful::{relative_orientation, companion_id, for_reversed_string};
 
 
 /*

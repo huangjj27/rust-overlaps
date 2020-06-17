@@ -1,23 +1,15 @@
-extern crate bidir_map;
-
-extern crate bio;
 use bio::data_structures::bwt::{DerefBWT, DerefOcc, DerefLess};
 use bio::data_structures::bwt::{bwt, less, Occ};
 use bio::data_structures::fmindex::FMIndex;
 use bio::data_structures::suffix_array::suffix_array;
 use bio::data_structures::suffix_array::RawSuffixArray;
 use bio::alphabets::Alphabet;
-#[macro_use]
-extern crate clap;
-extern crate num_cpus;
-extern crate cue;
-
 use std::fs::File;
 use std::io::{Write, BufWriter};
 use std::collections::HashSet;
 use std::time::Instant;
-use std::fmt;
-use std::sync::atomic::{AtomicUsize, Ordering, ATOMIC_USIZE_INIT};
+
+use std::sync::atomic::{AtomicUsize, Ordering};
 use std::{thread, time};
 use std::io::stdout;
 
@@ -32,13 +24,13 @@ mod modes;
 mod testing;
 mod useful;
 
-use structs::solutions::Solution;
-use structs::run_config::{Config, Maps};
-use search::GeneratesCandidates;
-use modes::Mode;
+use crate::structs::solutions::Solution;
+use crate::structs::run_config::{Config, Maps};
+use crate::search::GeneratesCandidates;
+use crate::modes::Mode;
 
 pub static READ_ERR : u8 = b'N';
-static ATOMIC_TASKS_DONE: AtomicUsize = ATOMIC_USIZE_INIT;
+static ATOMIC_TASKS_DONE: AtomicUsize = AtomicUsize::new(0);
 
 /*
 Gets the config and writes all the necessary data into the map struct.
@@ -116,7 +108,7 @@ fn solve(config : &Config, maps : &Maps, mode : Mode){
             if config.greedy_output {
                 //workers ==> out
                 for sol in solutions {write_solution(&mut wrt_buf, &sol, maps, config);}
-                wrt_buf.flush().is_ok();
+                wrt_buf.flush().unwrap();
             }else {
                 //workers ==> solutions --> sorted_solutions --> out
                 for sol in solutions {&mut complete_solution_list.push(sol);}
@@ -134,7 +126,7 @@ fn solve(config : &Config, maps : &Maps, mode : Mode){
 
     if config.track_progress {
         ATOMIC_TASKS_DONE.store(num_tasks, Ordering::Relaxed);
-        progress_tracker.join().is_ok();
+        progress_tracker.join().unwrap();
     }
 
     if !config.greedy_output {
@@ -201,14 +193,14 @@ fn track_progress(enabled : bool, num_tasks : usize) {
             let eta_str = time_display(eta as u64);
             print!("\r[{}{}] {}/{} tasks done. ETA {}                     ",
                    &complete, &incomplete, tasks_done, num_tasks, eta_str);
-            stdout().flush().is_ok();
+            stdout().flush().unwrap();
             redraw = false;
             tick_modulo = 0;
         }
         if tasks_done >= num_tasks{
             println!("\r[{}{}] {}/{} tasks done.                            ",
                      &complete, &incomplete, tasks_done, num_tasks);
-            stdout().flush().is_ok();
+            stdout().flush().unwrap();
             break;
         }
         thread::sleep(sleep_time);
@@ -262,7 +254,7 @@ fn write_solution(buf : &mut BufWriter<File>, s : &Solution, maps : &Maps, confi
                             s.overlap_b,
                             s.errors,
     );
-    buf.write(formatted.as_bytes()).is_ok();
+    buf.write(formatted.as_bytes()).unwrap();
     if config.print{
         let a = &String::from_utf8_lossy(maps.get_string(s.id_a));
         let b = &String::from_utf8_lossy(maps.get_string(s.id_b));

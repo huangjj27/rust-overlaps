@@ -1,4 +1,4 @@
-use fmt;
+use std::fmt;
 
 #[inline]
 pub fn for_reversed_string(id : usize) -> bool {
@@ -44,4 +44,3 @@ impl fmt::Display for Orientation {
         write!(f, "{}", s)
     }
 }
-

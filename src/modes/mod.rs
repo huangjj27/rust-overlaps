@@ -2,7 +2,7 @@ use std::fmt::{Display, Debug};
 
 pub mod kucherov;
 pub mod valimaki;
-pub type Mode = Box<IsMode>;
+pub type Mode = Box<dyn IsMode>;
 
 /*
 "interface" for new filtering and partition schemes.
